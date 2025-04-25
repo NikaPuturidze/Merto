@@ -2,13 +2,20 @@ class Index {
   currentLang = window.localStorage.getItem('lang') || 'en'
 
   onInit() {
-    fetch('topics.json') // Will be added actual endpoint in future
+    this.setFont(this.currentLang)
+    fetch('.topics.json') // Will be added actual endpoint in future
       .then((response) => response.json())
       .then((data) => {
         const currentLang = data[this.currentLang]
         this.setHeader(currentLang)
         this.setNav(currentLang)
-        this.setFont(currentLang)
+      })
+
+    fetch('.mega-menu.json') // Will be added actual endpoint in future
+      .then((response) => response.json())
+      .then((data) => {
+        const currentLang = data[this.currentLang]
+        this.carousel(currentLang)
       })
   }
 
@@ -93,9 +100,79 @@ class Index {
   }
 
   setFont(data) {
-    document.documentElement.style.setProperty('--font', data.languages.languageFont)
+    let currentFont
+    let langArray = [
+      {
+        id: 'en',
+        font: 'Poppins, sans-serif',
+      },
+      {
+        id: 'ru',
+        font: 'Rubik, sans-serif',
+      },
+      {
+        id: 'ka',
+        font: 'FiraGO, sans-serif',
+      },
+    ]
+
+    langArray.forEach((font) => {
+      if (font.id === data) {
+        currentFont = font.font
+        return
+      }
+    })
+
+    document.documentElement.style.setProperty('--font', currentFont)
+  }
+
+  carousel(data) {
+    const carouselContainer = document.querySelector('.carousel-container')
+    const step = document.querySelector('.step')
+    const images = data.carousel
+    let currentTranslate = 0
+    let currentImage = 0
+
+    images.forEach((item) => {
+      carouselContainer.innerHTML += `
+        <div class="item">
+          <div class="text-content">
+            <h5>${item.topic}</h5>
+            <h2>${item.name}</h2>
+            <h3>${item.description ?? ''}</h3>
+            <button>${item.shopNow}</button>
+          </div>
+          <img src="${item.imageUrl}" />
+        </div>
+      `
+    })
+
+    images.forEach(() => {
+      step.innerHTML += `
+        <div class="circle"></div>
+      `
+    })
+
+    const circles = document.querySelectorAll('.circle')
+
+    circles[0].style.backgroundColor = '#fff'
+
+    setInterval(() => {
+      currentTranslate += carouselContainer.scrollWidth / images.length
+      carouselContainer.style.transform = `translate(${-currentTranslate}px)`
+      currentImage++
+
+      if (currentImage === images.length) {
+        currentImage = 0
+        currentTranslate = 0
+        carouselContainer.style.transform = `translate(0px)`
+      }
+
+      circles.forEach((circle, index) => {
+        circle.style.backgroundColor = currentImage === index ? '#fff' : 'transparent'
+      })
+    }, 4000)
   }
 }
 
-const index = new Index()
-index.onInit()
+new Index().onInit()
