@@ -1,12 +1,12 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, Headers } from '@nestjs/common'
 import { GetTopicsService } from './get-topics.service'
 
-@Controller('get-topics')
+@Controller('topics')
 export class GetTopicsController {
   constructor(private readonly getTopicsSevice: GetTopicsService) {}
 
   @Get()
-  getTopics(): string {
-    return this.getTopics()
+  getTopics(@Headers('accept-language') acceptLanguage: string): any {
+    return this.getTopicsSevice.getTopics(acceptLanguage)
   }
 }

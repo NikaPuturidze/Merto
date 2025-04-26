@@ -1,9 +1,8 @@
 import { Injectable, OnModuleInit } from '@nestjs/common'
 import { Db, MongoClient } from 'mongodb'
-require('dotenv').config()
 
 @Injectable()
-export class GetTopicsService implements OnModuleInit {
+export class MegaMenuService implements OnModuleInit {
   private client: MongoClient
   private db: Db
 
@@ -20,8 +19,8 @@ export class GetTopicsService implements OnModuleInit {
     }
   }
 
-  async getTopics(acceptLanguage: string) {
-    const data = await this.db.collection('topics').findOne({}, { projection: { [acceptLanguage]: 1, _id: 0 } })
+  async getMegaMenu(acceptLanguage: string) {
+    const data = await this.db.collection('mega-menu').findOne({}, { projection: { [acceptLanguage]: 1, _id: 0 } })
 
     return data?.[acceptLanguage]
   }

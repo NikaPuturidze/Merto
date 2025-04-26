@@ -3,20 +3,28 @@ class Index {
   currentLang = window.localStorage.getItem('lang') || 'en'
 
   onInit() {
-    fetch('.topics.json') // Will be added actual endpoint in future
+    fetch('http://localhost:3000/topics', {
+      method: 'GET',
+      headers: {
+        'accept-language': this.currentLang,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
-        const currentLang = data[this.currentLang]
-        this.setHeader(currentLang.header)
-        this.setNav(currentLang.header)
-        this.setFooter(currentLang.footer)
+        this.setHeader(data.header)
+        this.setNav(data.header)
+        this.setFooter(data.footer)
       })
 
-    fetch('.mega-menu.json') // Will be added actual endpoint in future
+    fetch('http://localhost:3000/mega-menu', {
+      method: 'GET',
+      headers: {
+        'accept-language': this.currentLang,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
-        const currentLang = data[this.currentLang]
-        this.carousel(currentLang)
+        this.carousel(data.carousel)
       })
   }
 
@@ -179,11 +187,10 @@ class Index {
   carousel(data) {
     const carouselContainer = document.querySelector('.carousel-container')
     const step = document.querySelector('.step')
-    const images = data.carousel
     let currentTranslate = 0
     let currentImage = 0
 
-    images.forEach((item) => {
+    data.forEach((item) => {
       carouselContainer.innerHTML += `
         <div class="item">
           <div class="text-content">
@@ -197,7 +204,7 @@ class Index {
       `
     })
 
-    images.forEach(() => {
+    data.forEach(() => {
       step.innerHTML += `
         <div class="circle"></div>
       `
@@ -207,11 +214,11 @@ class Index {
     circles[0].style.backgroundColor = '#fff'
 
     setInterval(() => {
-      currentTranslate += carouselContainer.scrollWidth / images.length
+      currentTranslate += carouselContainer.scrollWidth / data.length
       carouselContainer.style.transform = `translate(${-currentTranslate}px)`
       currentImage++
 
-      if (currentImage === images.length) {
+      if (currentImage === data.length) {
         currentImage = 0
         currentTranslate = 0
         carouselContainer.style.transform = `translate(0px)`

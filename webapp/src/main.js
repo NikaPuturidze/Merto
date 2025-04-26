@@ -18,7 +18,6 @@ export function setFont() {
   langArray.forEach((font) => {
     if (font.id === (window.localStorage.getItem('lang') || 'en')) {
       currentFont = font.font
-      console.log(window.localStorage.getItem('lang') || 'en', font.id)
       return
     }
   })
