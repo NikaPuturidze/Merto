@@ -134,6 +134,7 @@ class Index {
     let currentImage = 0
 
     images.forEach((item) => {
+      console.log(item.imageUrl)
       carouselContainer.innerHTML += `
         <div class="item">
           <div class="text-content">
@@ -154,7 +155,6 @@ class Index {
     })
 
     const circles = document.querySelectorAll('.circle')
-
     circles[0].style.backgroundColor = '#fff'
 
     setInterval(() => {

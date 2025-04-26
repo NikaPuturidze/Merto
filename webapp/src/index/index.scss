@@ -1,6 +1,7 @@
 body {
   .main-container-wrapper {
     position: relative;
+    padding-inline: 20px;
 
     &::after {
       position: absolute;
@@ -14,10 +15,9 @@ body {
     }
 
     .main-container {
-      max-width: 1300px;
+      max-width: 1200px;
       margin: 0 auto;
       position: relative;
-      padding-inline: 20px;
 
       header {
         width: 100%;
@@ -376,25 +376,35 @@ body {
     padding-inline: 20px;
 
     .mega-menu-container {
-      max-width: 1300px;
+      max-width: 1200px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
-      gap: 16px;
+      gap: 20px;
       max-height: 511px;
       height: 100%;
       position: relative;
 
-      @media (width <= 1200px) {
+      .side {
+        display: flex;
+        justify-content: space-between;
         flex-direction: column;
-        gap: 20px;
+        width: calc(1200px - 880px - 20px);
+        height: 511px;
+
+        .category {
+          background: red;
+          height: 48%;
+          width: 100%;
+          min-width: 270px;
+        }
       }
 
       .carousel {
         display: flex;
         position: relative;
         overflow: hidden;
-        max-width: 880px;
+        max-width: 1200px;
         border-radius: 6px;
         width: 100%;
         height: 100%;
@@ -407,7 +417,7 @@ body {
           height: 511px;
 
           .item {
-            width: 880px;
+            width: 1200px;
             position: relative;
 
             .text-content {
@@ -415,7 +425,7 @@ body {
               flex-direction: column;
               position: absolute;
               top: 50%;
-              left: 25%;
+              left: 20%;
               transform: translate(-50%, -50%);
               color: $whitePrimary;
               width: 320px;
@@ -471,7 +481,7 @@ body {
             }
 
             img {
-              width: 880px;
+              width: 1200px;
               height: 100%;
               object-fit: cover;
             }
