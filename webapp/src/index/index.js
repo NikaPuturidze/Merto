@@ -1,8 +1,8 @@
+import '../main.js'
 class Index {
   currentLang = window.localStorage.getItem('lang') || 'en'
 
   onInit() {
-    this.setFont(this.currentLang)
     fetch('.topics.json') // Will be added actual endpoint in future
       .then((response) => response.json())
       .then((data) => {
@@ -99,33 +99,6 @@ class Index {
   `
   }
 
-  setFont(data) {
-    let currentFont
-    let langArray = [
-      {
-        id: 'en',
-        font: 'Poppins, sans-serif',
-      },
-      {
-        id: 'ru',
-        font: 'Rubik, sans-serif',
-      },
-      {
-        id: 'ka',
-        font: 'FiraGO, sans-serif',
-      },
-    ]
-
-    langArray.forEach((font) => {
-      if (font.id === data) {
-        currentFont = font.font
-        return
-      }
-    })
-
-    document.documentElement.style.setProperty('--font', currentFont)
-  }
-
   carousel(data) {
     const carouselContainer = document.querySelector('.carousel-container')
     const step = document.querySelector('.step')
@@ -134,7 +107,6 @@ class Index {
     let currentImage = 0
 
     images.forEach((item) => {
-      console.log(item.imageUrl)
       carouselContainer.innerHTML += `
         <div class="item">
           <div class="text-content">
