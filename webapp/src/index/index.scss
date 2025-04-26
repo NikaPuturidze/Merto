@@ -429,10 +429,10 @@ body {
               transform: translate(-50%, -50%);
               color: $whitePrimary;
               width: 320px;
-              height: 200px;
+              height: 210px;
 
               h5 {
-                font-size: 14px;
+                font-size: 16px;
                 line-height: 30px;
                 font-weight: 500;
                 cursor: default;
@@ -440,14 +440,14 @@ body {
               }
 
               h2 {
-                font-size: 34px;
-                line-height: 40px;
+                font-size: 36px;
+                line-height: 42px;
                 cursor: default;
                 @include semibold;
               }
 
               h3 {
-                font-size: 34px;
+                font-size: 35px;
                 line-height: 42px;
                 @include regular;
               }
@@ -462,7 +462,7 @@ body {
                 color: white;
                 background: transparent;
                 border-radius: 6px;
-                line-height: 18px;
+                line-height: 22px;
                 padding: 8px 10px;
                 max-width: 140px;
                 display: flex;
