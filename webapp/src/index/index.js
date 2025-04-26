@@ -20,7 +20,7 @@ class Index {
   }
 
   setHeader(data) {
-    const header = document.querySelector('header')
+    const header = document.querySelector('.header-container')
     const ul = document.createElement('ul')
 
     data.languages.languages.forEach((language) => {

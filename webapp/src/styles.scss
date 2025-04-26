@@ -45,7 +45,7 @@ html {
 }
 
 body {
-  .main-container-wrapper {
+  header {
     position: relative;
     padding-inline: 20px;
 
@@ -65,7 +65,7 @@ body {
       margin: 0 auto;
       position: relative;
 
-      header {
+      .header-container {
         width: 100%;
         padding: 25px 0;
         display: flex;
