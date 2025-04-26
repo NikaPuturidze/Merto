@@ -43,3 +43,377 @@ html {
   font-weight: 400;
   font-style: normal;
 }
+
+body {
+  .main-container-wrapper {
+    position: relative;
+    padding-inline: 20px;
+
+    &::after {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      content: '';
+      width: 100vw;
+      height: 1px;
+      background-color: rgba($blackMain, 0.1);
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+
+      header {
+        width: 100%;
+        padding: 25px 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 0 60px;
+
+        .logo {
+          img {
+            height: 40px;
+            width: 126px;
+          }
+        }
+
+        .header-center {
+          display: flex;
+          align-items: center;
+          max-width: 646px;
+          width: 100%;
+          background: $whiteSecondary;
+          border-radius: 6px;
+          overflow: hidden;
+
+          input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 18px 20px;
+            background: $whiteSecondary;
+
+            &::placeholder {
+              color: rgba($blackMain, 0.6);
+              @include regular;
+            }
+          }
+
+          .search-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 46px;
+            max-height: 46px;
+            width: 100%;
+            height: 100%;
+            background: $blackMain;
+            margin: 0 4px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: $blackMain;
+
+            i {
+              color: $whitePrimary;
+              height: 18px;
+            }
+          }
+        }
+
+        .header-right {
+          display: flex;
+          gap: 20px;
+          width: 300px;
+
+          .container {
+            display: flex;
+            flex-grow: 1;
+
+            .header-language {
+              display: flex;
+              align-items: center;
+              gap: 5px;
+              cursor: pointer;
+              position: relative;
+
+              &:hover {
+                span {
+                  color: $blueMain;
+                }
+
+                i {
+                  color: $blueMain;
+                }
+
+                .language-dropdown-container {
+                  height: 90px;
+
+                  .language-dropdown {
+                    border: 1px solid rgba($blackMain, 0.3);
+                  }
+                }
+              }
+
+              .language-dropdown-container {
+                display: flex;
+                align-items: flex-end;
+                transition: all 0.2s ease;
+                position: absolute;
+                z-index: 1;
+                top: 54px;
+                left: -25%;
+                right: 0px;
+                height: 0;
+                overflow: hidden;
+                width: 150%;
+
+                .language-dropdown {
+                  background-color: $whitePrimary;
+                  border-radius: 6px;
+                  border: none;
+                  box-shadow: 0 2px 15px rgba($blackMain, 0.15);
+                  width: 100%;
+
+                  ul {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 5px;
+                    padding-block: 20px;
+                    padding-left: 10px;
+
+                    li {
+                      width: 100px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: flex-start;
+                      gap: 10px;
+                      transition: all 0.3s ease;
+
+                      img {
+                        width: 20px;
+                        height: 20px;
+                      }
+
+                      span {
+                        font-size: 14px;
+                        color: $blackMain;
+                        @include regular;
+                      }
+
+                      &:hover {
+                        span {
+                          color: $blueMain;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              img {
+                width: 20px;
+                height: 20px;
+              }
+
+              span {
+                color: $blackMain;
+                font-size: 14px;
+                @include regular;
+              }
+
+              i {
+                font-size: 12px;
+              }
+            }
+          }
+
+          .header-account {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            width: 95px;
+
+            &:hover {
+              span {
+                color: $blueMain;
+              }
+
+              i {
+                color: $blueMain;
+              }
+            }
+
+            i {
+              font-size: 22px;
+              height: 22px;
+            }
+
+            span {
+              color: $blackMain;
+              @include semibold;
+              font-size: 14px;
+            }
+          }
+
+          .header-favourite {
+            display: flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+
+            .counter {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: absolute;
+              top: 9px;
+              right: -10px;
+              height: 18px;
+              width: 18px;
+              border-radius: 50%;
+              background: $blueMain;
+
+              span {
+                @include regular;
+                font-size: 12px;
+                line-height: 1px;
+                color: $whitePrimary;
+              }
+            }
+
+            &:hover {
+              i {
+                color: $blueMain;
+              }
+            }
+
+            i {
+              font-size: 20px;
+              height: 20px;
+            }
+          }
+
+          .header-cart {
+            display: flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+
+            .counter {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: absolute;
+              top: 9px;
+              right: -10px;
+              height: 18px;
+              width: 18px;
+              border-radius: 50%;
+              background: $blueMain;
+
+              span {
+                @include regular;
+                font-size: 12px;
+                line-height: 1px;
+                color: $whitePrimary;
+              }
+            }
+
+            &:hover {
+              i {
+                color: $blueMain;
+              }
+            }
+
+            i {
+              font-size: 20px;
+              height: 20px;
+            }
+          }
+        }
+      }
+
+      nav {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding-top: 3px;
+        padding-bottom: 12px;
+
+        ul {
+          width: 100%;
+          list-style: none;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 25px;
+
+          li {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px 0;
+            position: relative;
+            text-wrap: nowrap;
+            transform-origin: right;
+
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: -12px;
+              left: 0;
+              width: 100%;
+              height: 2px;
+              background-color: $blackMain;
+              transform: scaleX(0);
+              transition: transform 0.3s ease;
+              transform-origin: right;
+              will-change: transform;
+            }
+
+            &:hover::after {
+              transform-origin: left;
+              transform: scaleX(1);
+            }
+
+            img {
+              width: 20px;
+            }
+
+            span {
+              font-size: 14px;
+              line-height: 20px;
+              color: $blackMain;
+              @include semibold;
+            }
+
+            &:last-child {
+              margin-left: auto;
+
+              span {
+                @include regular;
+              }
+
+              i {
+                font-size: 12px;
+                margin-bottom: 2px;
+              }
+
+              &:after {
+                visibility: hidden;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
