@@ -20,20 +20,13 @@
       <section>
         <div class="container">
           <div class="images">
-            <div class="thumbnails">
-              <img src="https://merto-be87.kxcdn.com/merto/wp-content/uploads/2024/05/electronic-10.jpg" alt="" class="active" />
-              <img src="https://merto-be87.kxcdn.com/merto/wp-content/uploads/2024/05/electronic-8-300x300.jpg" alt="" />
-              <img src="https://merto-be87.kxcdn.com/merto/wp-content/uploads/2024/05/electronic-9-300x300.jpg" alt="" />
-              <img src="https://merto-be87.kxcdn.com/merto/wp-content/uploads/2024/05/electronic-10.jpg" alt="" />
-            </div>
-            <div class="mainImg">
-              <img src="https://merto-be87.kxcdn.com/merto/wp-content/uploads/2024/05/electronic-10.jpg" alt="" />
-            </div>
+            <div class="thumbnails" id="thumbnails"></div>
+            <div class="mainImg" id="mainImg"></div>
           </div>
           <div class="productInfo">
             <div class="info">
-              <p>Apple</p>
-              <h1>Unlocked Dual-SIM Android Smart Phone, 6.7″ LCD Display</h1>
+              <p id="subCategoryName"></p>
+              <h1 id="name"></h1>
               <div class="reviews">
                 <div class="stars">
                   <i class="fa-solid fa-star"></i>
@@ -46,12 +39,8 @@
                 <p>See Reviews</p>
               </div>
               <div class="price">
-                <div class="new">
-                  <p>$999</p>
-                </div>
-                <div class="old">
-                  <p>$1,536</p>
-                </div>
+                <div class="new" id="price"></div>
+                <div class="old" id="previousPrice"></div>
               </div>
               <div class="stock inStock">
                 <p>In Stock</p>
@@ -99,16 +88,18 @@
       </section>
       <section>
         <div class="container">
-          <div class="head">
-            <h2 id="specifications">Specifications</h2>
-            <h2 id="reviews">Reviews</h2>
-          </div>
-          <div class="content">
-            <div class="specifications" id="specificationsMenu">
-              <h1>Specifications</h1>
+          <div class="about">
+            <div class="head">
+              <h2 id="specifications">Specifications</h2>
+              <h2 id="reviews">Reviews</h2>
             </div>
-            <div class="reviews" id="reviewsMenu">
-              <h1>Reviews</h1>
+            <div class="content">
+              <div class="specifications" id="specificationsMenu">
+                <h1>Specifications</h1>
+              </div>
+              <div class="reviews" id="reviewsMenu">
+                <h1>Reviews</h1>
+              </div>
             </div>
           </div>
         </div>

@@ -115,10 +115,11 @@ body {
               .new {
                 p {
                   font-size: 1.62rem;
-                  color: black;
+                  color: $blueMain;
                 }
               }
               .old {
+                align-self: flex-start;
                 p {
                   font-size: 1.24rem;
                   font-weight: 500;
@@ -327,67 +328,74 @@ body {
       &:last-of-type {
         margin-top: 70px;
         .container {
-          .head {
-            @include regular;
+          .about {
             width: 100%;
             display: flex;
-            gap: 30px;
-            position: relative;
-            h2 {
-              font-size: 1.38rem;
-              color: rgba($color: $blackMain, $alpha: 0.6);
+            flex-direction: column;
+            .head {
+              @include regular;
+              width: 100%;
+              display: flex;
+              gap: 30px;
               position: relative;
-              cursor: pointer;
-              transition: 0.3s ease;
-              &::before {
-                content: '';
-                position: absolute;
-                right: -15px;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 1px;
-                height: 60%;
-                background-color: rgba($color: $blackMain, $alpha: 0.33);
-                border-radius: 5px;
-              }
-              &.active {
-                color: black;
-                &::after {
+              h2 {
+                font-size: 1.38rem;
+                color: rgba($color: $blackMain, $alpha: 0.6);
+                position: relative;
+                cursor: pointer;
+                transition: 0.3s ease;
+                &::before {
                   content: '';
                   position: absolute;
-                  left: 0;
-                  right: 0;
-                  bottom: -8px;
-                  width: 100%;
-                  height: 1px;
-                  background-color: black;
-                  z-index: 2;
+                  right: -15px;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  width: 1px;
+                  height: 60%;
+                  background-color: rgba($color: $blackMain, $alpha: 0.33);
                   border-radius: 5px;
                 }
-              }
-              &:last-of-type {
-                &::before {
-                  height: 0;
-                  width: 0;
+                &.active {
+                  color: black;
+                  &::after {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    bottom: -8px;
+                    width: 100%;
+                    height: 1px;
+                    background-color: black;
+                    z-index: 2;
+                    border-radius: 5px;
+                  }
+                }
+                &:last-of-type {
+                  &::before {
+                    height: 0;
+                    width: 0;
+                  }
                 }
               }
+              &::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: -8px;
+                width: 100%;
+                height: 1px;
+                border-radius: 5px;
+                background-color: $whiteSecondary;
+              }
             }
-            &::after {
-              content: '';
-              position: absolute;
-              left: 0;
-              right: 0;
-              bottom: -8px;
-              width: 100%;
-              height: 1px;
-              border-radius: 5px;
-              background-color: $whiteSecondary;
-            }
-          }
-          .content {
-            .specifications {
-            }
-            .reviews {
+            .content {
+              margin-top: 30px;
+              @include regular;
+              .specifications {
+              }
+              .reviews {
+              }
             }
           }
         }

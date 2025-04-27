@@ -5,8 +5,9 @@ class Catalog {
   catId
   items = []
   undfilteredItems = []
-  currentSortTitle = 'Default'
+  currentSortTitle = ''
   categoryName = ''
+  sortArray = []
 
   onInit() {
     fetch('http://localhost:3000/topics', {
@@ -30,6 +31,7 @@ class Catalog {
   }
 
   fetchCatalog(catId) {
+    document.querySelector('.loader').style.display = 'flex'
     fetch(`http://localhost:3000/catalog?catId=${catId}`, {
       headers: { 'accept-language': this.currentLang },
     })
@@ -38,6 +40,7 @@ class Catalog {
         this.undfilteredItems = data.items
         this.items = [...this.undfilteredItems]
         this.setCatalog(this.items)
+        document.querySelector('.loader').style.display = 'none'
       })
   }
 
@@ -50,6 +53,8 @@ class Catalog {
         const convertedData = Object.values(data)
         this.setFilter(convertedData)
         this.categoryName = data.categoryName
+        this.sortArray = data.sort
+        this.currentSortTitle = data.sort[0]
       })
   }
 
@@ -97,37 +102,32 @@ class Catalog {
     })
 
     sort.innerHTML = `
-        <div class="sortby">
+      <div class="sortby">
         <div class="methods">
-            <div class="methods-cont">
-            <h4>Default</h4>
-            <h4>Sort by price: low to high</h4>
-            <h4>Sort by price: high to low</h4>
-            </div>
+          <div class="methods-cont">
+            <h4 data-sort="default">${this.sortArray[0]}</h4>
+            <h4 data-sort="price-low-high">${this.sortArray[1]}</h4>
+            <h4 data-sort="price-high-low">${this.sortArray[2]}</h4>
+          </div>
         </div>
-        <h3>Sort:</h3>
         <div class="cont">
-            <h4 class="chsnSort">${this.currentSortTitle}</h4>
-            <i class="fa-solid fa-chevron-down"></i>
+          <h4 class="chsnSort">${this.currentSortTitle}</h4>
+          <i class="fa-solid fa-chevron-down"></i>
         </div>
-        </div>
+      </div>
     `
 
     document.querySelectorAll('.methods-cont h4').forEach((el) => {
       el.addEventListener('click', (e) => {
-        const txt = e.target.textContent
-        this.currentSortTitle = txt
+        const sortKey = e.target.dataset.sort
+        this.currentSortTitle = e.target.textContent
+        document.querySelector('.chsnSort').textContent = this.currentSortTitle
 
-        const contTitle = document.querySelector('.chsnSort')
-        contTitle.textContent = txt
-
-        if (txt.includes('low to high')) {
-          this.sortCatalog('price-low-high')
-        } else if (txt.includes('high to low')) {
-          this.sortCatalog('price-high-low')
-        } else if (txt.includes('Default')) {
+        if (sortKey === 'default') {
           this.currentSort = null
           this.fetchCatalog(this.catId)
+        } else {
+          this.sortCatalog(sortKey)
         }
       })
     })

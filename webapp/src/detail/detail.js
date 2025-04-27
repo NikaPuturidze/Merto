@@ -19,6 +19,7 @@ class Detail {
     this.toggleMenu()
   }
   currentLang = window.localStorage.getItem('lang') || 'en'
+  productDetails
 
   onInit() {
     fetch('http://localhost:3000/topics', {
@@ -32,10 +33,10 @@ class Detail {
         setHeader(data.header)
         setNav(data.header)
         setFooter(data.footer)
-        this.handleNavigation()
+        // this.handleNavigation()
       })
-
-    fetch('http://localhost:3000/mega-menu', {
+    this.productId = new URLSearchParams(window.location.search).get('productId')
+    fetch('http://localhost:3000/details?productId=44004', {
       method: 'GET',
       headers: {
         'accept-language': this.currentLang,
@@ -43,8 +44,40 @@ class Detail {
     })
       .then((response) => response.json())
       .then((data) => {
-        this.carousel(data.carousel)
+        this.productDetails = data
+        this.setDetails()
+        console.log(this.productDetails)
       })
+  }
+
+  setDetails() {
+    const subCategoryName = document.getElementById('subCategoryName')
+    subCategoryName.innerText = this.productDetails.subCategoryName
+
+    const name = document.getElementById('name')
+    name.innerText = this.productDetails.name
+
+    const price = document.getElementById('price')
+    const previousPrice = document.getElementById('previousPrice')
+    if (this.productDetails.previousPrice == null) {
+      price.classList.add('new')
+      price.innerHTML = `<p>${this.productDetails.price}₾</p>`
+    } else {
+      price.classList.add('new')
+      price.innerHTML = `<p>${this.productDetails.price}₾</p>`
+
+      previousPrice.classList.add('old')
+      previousPrice.innerHTML = `<p>${this.productDetails.previousPrice}₾</p>`
+    }
+
+    const mainImg = document.getElementById('mainImg')
+    mainImg.innerHTML = ` <img src="${this.productDetails.images[0]}" alt="" />`
+
+    const thumbnails = document.getElementById('thumbnails')
+    this.productDetails.images.forEach((img, index) => {
+      thumbnails.innerHTML += ` <img src="${img}" alt="" id="thumbImg"/>`
+      const thumbImg = document.getElementById('thumbImg')
+    })
   }
 
   increaseQuantity() {
