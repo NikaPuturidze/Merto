@@ -21,7 +21,7 @@ export class CatalogService implements OnModuleInit {
     }
   }
 
-  async getCatalog(catId: string, page = 1, size = 20) {
+  async getCatalog(catId: string, page = 1, size = 28) {
     const MAX_SIZE = 56
     const safePage = Math.max(1, page)
     const safeSize = Math.min(Math.max(1, size), MAX_SIZE)
