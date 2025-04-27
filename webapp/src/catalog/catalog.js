@@ -15,7 +15,22 @@ class Catalog {
         setHeader(data.header)
         setNav(data.header)
         setFooter(data.footer)
+        this.handleNavigation()
       })
+  }
+
+  handleNavigation() {
+    const categories = document.querySelector('#cat-list').getElementsByTagName('li')
+    const categoriesArray = Array.from(categories)
+    categoriesArray.pop()
+
+    categoriesArray.forEach((category) => {
+      category.addEventListener('click', () => {
+        const classValue = category.classList
+
+        window.location.href = `?catId=${classValue}`
+      })
+    })
   }
 }
 

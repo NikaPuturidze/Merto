@@ -38,7 +38,7 @@ class Index {
       category.addEventListener('click', () => {
         const classValue = category.classList
 
-        window.location.href = `./catalog/catalog.html?id=${classValue}`
+        window.location.href = `./catalog/catalog.html?catId=${classValue}`
       })
     })
   }
