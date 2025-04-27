@@ -1,0 +1,16 @@
+{
+  "name": "merto",
+  "version": "0.0.0",
+  "author": "Nika Puturidze",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "w": "pnpm --filter @merto/webapp",
+    "b": "pnpm --filter @merto/backend",
+    "prettify": "pnpm -r --parallel prettify"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "rimraf": "^5.0.10"
+  }
+}
