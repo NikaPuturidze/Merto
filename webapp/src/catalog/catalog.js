@@ -2,12 +2,11 @@ import { setFooter, setHeader, setNav } from '../main.js'
 
 class Catalog {
   currentLang = window.localStorage.getItem('lang') || 'en'
-  currentPage = 1
-  limit = 24
   catId
-  page
   items = []
+  undfilteredItems = []
   currentSortTitle = 'Default'
+  categoryName = ''
 
   onInit() {
     fetch('http://localhost:3000/topics', {
@@ -24,32 +23,33 @@ class Catalog {
         this.handleNavigation()
       })
 
-    const urlParams = new URLSearchParams(window.location.search)
-    urlParams.set('page', 1)
-    urlParams.set('limit', this.limit)
-    window.history.replaceState({}, '', `${window.location.pathname}?${urlParams.toString()}`)
-
     this.catId = new URLSearchParams(window.location.search).get('catId')
-    this.page = +(new URLSearchParams(window.location.search).get('page') || this.currentPage)
 
-    this.fetchCatalog(this.catId, this.page, this.limit)
+    this.fetchCatalog(this.catId)
+    this.fetchFilter(this.catId)
   }
 
-  fetchCatalog(catId, page, limit) {
-    fetch(`http://localhost:3000/catalog?catId=${catId}&page=${page}&limit=${limit}`, {
+  fetchCatalog(catId) {
+    fetch(`http://localhost:3000/catalog?catId=${catId}`, {
       headers: { 'accept-language': this.currentLang },
     })
       .then((r) => r.json())
       .then((data) => {
-        if (page > 1) {
-          this.items = this.items.concat(data.items)
-        } else {
-          this.items = data.items
-        }
-
-        if (this.currentSort) this.applySort()
-
+        this.undfilteredItems = data.items
+        this.items = [...this.undfilteredItems]
         this.setCatalog(this.items)
+      })
+  }
+
+  fetchFilter(catId) {
+    fetch(`http://localhost:3000/filter?catId=${catId}`, {
+      headers: { 'accept-language': this.currentLang },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        const convertedData = Object.values(data)
+        this.setFilter(convertedData)
+        this.categoryName = data.categoryName
       })
   }
 
@@ -75,7 +75,7 @@ class Catalog {
     categoriesArray.forEach((category) => {
       category.addEventListener('click', () => {
         const classValue = category.classList
-        window.location.href = `?catId=${classValue}&page=1&limit=${this.limit}`
+        window.location.href = `?catId=${classValue}`
       })
     })
   }
@@ -88,7 +88,7 @@ class Catalog {
 
     topRow.innerHTML = `
         <i class="fa-solid fa-chevron-left back"></i>
-        <h3 class="category-name">მობილური ტელეფონები</h3>
+        <h3 class="category-name">${this.categoryName}</h3>
     `
 
     const chevron = document.querySelector('.back')
@@ -113,9 +113,6 @@ class Catalog {
         </div>
     `
 
-    const contTitle = document.querySelector('.chsnSort')
-    console.log(contTitle.textContent)
-
     document.querySelectorAll('.methods-cont h4').forEach((el) => {
       el.addEventListener('click', (e) => {
         const txt = e.target.textContent
@@ -130,7 +127,7 @@ class Catalog {
           this.sortCatalog('price-high-low')
         } else if (txt.includes('Default')) {
           this.currentSort = null
-          this.fetchCatalog(this.catId, 1, this.limit)
+          this.fetchCatalog(this.catId)
         }
       })
     })
@@ -167,23 +164,133 @@ class Catalog {
         </div>
        `
     })
+  }
 
-    let showMoreButton = document.querySelector('.show-more')
-    if (!showMoreButton) {
-      products.innerHTML += `<button class="show-more">Show More</button>`
-      showMoreButton = document.querySelector('.show-more')
-    }
+  setFilter(filters) {
+    const aside = document.querySelector('.filters')
 
-    showMoreButton.onclick = () => {
-      this.currentPage += 1
+    filters.forEach((e) => {
+      const filterWrapperDiv = document.createElement('div')
+      filterWrapperDiv.classList.add('filter-wrapper')
 
-      const urlParams = new URLSearchParams(window.location.search)
-      urlParams.set('page', this.currentPage)
-      urlParams.set('limit', this.limit)
-      window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`)
+      const headerDiv = document.createElement('div')
+      headerDiv.classList.add('filter-header')
 
-      this.fetchCatalog(this.catId, this.currentPage, this.limit)
-    }
+      const h4 = document.createElement('h4')
+      h4.classList.add('filter-name')
+
+      h4.textContent = e.name
+
+      headerDiv.appendChild(h4)
+      filterWrapperDiv.appendChild(headerDiv)
+
+      if (e.values && e.values.length > 0) {
+        const valuesDiv = document.createElement('div')
+        valuesDiv.classList.add('filter-values')
+
+        if (e.id === 2) {
+          const valueDiv = document.createElement('div')
+          valueDiv.classList.add('value-c')
+
+          e.values.forEach((value) => {
+            const colorDiv = document.createElement('div')
+            colorDiv.classList.add('color-value')
+
+            const colorSwatch = document.createElement('div')
+            colorSwatch.classList.add('color-swatch')
+            colorSwatch.style.backgroundColor = value.hex
+
+            const colorName = document.createElement('h5')
+            colorName.textContent = value.name
+
+            const checkbox = document.createElement('input')
+            checkbox.type = 'checkbox'
+            checkbox.name = `${e.name}-${value.name}`
+            checkbox.classList.add('filter-check')
+            checkbox.value = value.name
+            checkbox.dataset.filterGroup = e.name
+
+            colorDiv.appendChild(colorSwatch)
+            colorDiv.appendChild(colorName)
+            colorDiv.appendChild(checkbox)
+            valueDiv.appendChild(colorDiv)
+          })
+
+          valuesDiv.appendChild(valueDiv)
+        } else {
+          e.values.forEach((value) => {
+            const valueDiv = document.createElement('div')
+            valueDiv.classList.add('value')
+
+            const checkbox = document.createElement('input')
+
+            checkbox.type = 'checkbox'
+            checkbox.name = e.name
+            checkbox.classList.add('filter-check')
+            checkbox.value = value
+            checkbox.dataset.filterGroup = e.name
+
+            const h5 = document.createElement('h5')
+            h5.textContent = value
+
+            valueDiv.appendChild(checkbox)
+            valueDiv.appendChild(h5)
+            valuesDiv.appendChild(valueDiv)
+          })
+        }
+
+        filterWrapperDiv.appendChild(valuesDiv)
+      }
+
+      aside.appendChild(filterWrapperDiv)
+    })
+
+    document.querySelectorAll('.filter-check').forEach((cb) => {
+      cb.addEventListener('change', () => {
+        const checked = Array.from(document.querySelectorAll('.filter-check:checked'))
+        const groups = checked.reduce((acc, cb) => {
+          const group = cb.dataset.filterGroup
+          if (!acc[group]) acc[group] = []
+          acc[group].push(cb.value)
+          return acc
+        }, {})
+
+        let filtered = [...this.undfilteredItems]
+
+        Object.entries(groups).forEach(([group, vals]) => {
+          if (!vals.length) return
+
+          filtered = filtered.filter((item) => {
+            switch (group) {
+              case 'Color':
+                return item.specificationGroup?.some((g) => g.specifications?.some((spec) => vals.includes(spec.specificationMeaning)))
+
+              case 'Brand':
+                return vals.includes(item.subCategoryName)
+
+              case 'RAM':
+                return item.mainSpecification?.some((spec) => vals.includes(spec.specificationMeaning))
+
+              case 'Memory':
+                return item.specificationGroup?.some((g) => g.specifications?.some((spec) => vals.includes(spec.specificationMeaning)))
+
+              case 'Refresh rate':
+                return item.specificationGroup?.some((g) => g.specifications?.some((spec) => vals.includes(spec.specificationMeaning)))
+
+              default:
+                return true
+            }
+          })
+        })
+
+        if (checked.length === 0) {
+          filtered = [...this.undfilteredItems]
+        }
+
+        this.items = filtered
+        this.setCatalog(filtered)
+      })
+    })
   }
 }
 

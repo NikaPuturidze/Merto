@@ -7,10 +7,12 @@ import { CatalogController } from './catalog/catalog.controller'
 import { CatalogService } from './catalog/catalog.service'
 import { FilterController } from './filter/filter.controller';
 import { FilterService } from './filter/filter.service';
+import { DetailController } from './detail/detail.controller';
+import { DetailService } from './detail/detail.service';
 
 @Module({
   imports: [],
-  controllers: [GetTopicsController, MegaMenuController, CatalogController, FilterController],
-  providers: [GetTopicsService, MegaMenuService, CatalogService, FilterService],
+  controllers: [GetTopicsController, MegaMenuController, CatalogController, FilterController, DetailController],
+  providers: [GetTopicsService, MegaMenuService, CatalogService, FilterService, DetailService],
 })
 export class AppModule {}
