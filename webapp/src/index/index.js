@@ -37,8 +37,7 @@ class Index {
     categoriesArray.forEach((category) => {
       category.addEventListener('click', () => {
         const classValue = category.classList
-
-        window.location.href = `./catalog/catalog.html?catId=${classValue}&page=${1}&limit=${28}`
+        window.location.href = `./catalog/catalog.html?catId=${classValue}&page=${1}&limit=${Number(window.localStorage.getItem('limit')) || 28}`
       })
     })
   }
