@@ -1,0 +1,177 @@
+body {
+  .section-profile {
+    margin-top: 30px;
+    padding-inline: 20px;
+
+    .section-profile-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      height: 100%;
+      position: relative;
+
+      .left {
+        height: fit-content;
+        border: 1px solid $blackMain;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 4px;
+
+        button {
+          width: 100%;
+          background: $blueMain;
+
+          &:hover {
+            background: $whitePrimary;
+            color: $blueMain;
+          }
+        }
+
+        img {
+          height: 200px;
+        }
+
+        .name {
+          margin-top: 16px;
+          font-size: 21px;
+          @include regular;
+        }
+
+        .age {
+          margin-top: 1px;
+          font-size: 19px;
+          @include regular;
+        }
+
+        button {
+          margin-top: 16px;
+          border: none;
+          outline: none;
+          border: 1px solid $blueMain;
+          border-radius: 4px;
+          background: transparent;
+          font-size: 16px;
+          padding: 8px 20px;
+          @include semibold;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background: $blueMain;
+            color: $whitePrimary;
+          }
+        }
+      }
+
+      .right {
+        width: 100%;
+        height: fit-content;
+        border: 1px solid $blackMain;
+        padding: 12px;
+        display: flex;
+        align-items: flex-start;
+        border-radius: 4px;
+        gap: 10px;
+        justify-content: space-between;
+
+        .profile-container {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+
+          .products {
+            .cart-product {
+              margin-top: 10px;
+              border: 1px solid $blackMain;
+              border-radius: 6px;
+              padding: 4px 8px;
+              overflow: hidden;
+              display: flex;
+              flex-direction: column;
+              img {
+                height: 100px;
+              }
+              .product-item {
+                display: flex;
+                align-items: center;
+
+                h4 {
+                  @include semibold;
+                }
+
+                p {
+                  @include regular;
+                }
+
+                h5 {
+                  @include regular;
+                  font-size: 17px;
+                }
+              }
+            }
+          }
+        }
+
+        .info {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          width: 100%;
+
+          .field {
+            display: flex;
+            align-items: center;
+            padding: 2px 16px;
+            height: 40px;
+            border: 1px solid $blackMain;
+            gap: 10px;
+
+            @include regular;
+          }
+        }
+
+        .add {
+          display: flex;
+          flex-direction: column;
+          border: 1px solid $blackMain;
+          border-radius: 4px;
+          padding: 12px;
+          gap: 12px;
+
+          button {
+            border: none;
+            outline: none;
+            border: 1px solid $blueMain;
+            border-radius: 4px;
+            background: transparent;
+            font-size: 16px;
+            padding: 8px 20px;
+            @include semibold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background: $blueMain;
+              color: $whitePrimary;
+            }
+
+            &:last-child {
+              border: 1px solid $blueMain;
+              background: $blueMain;
+              color: $whitePrimary;
+
+              &:hover {
+                background: $whitePrimary;
+                color: $blueMain;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

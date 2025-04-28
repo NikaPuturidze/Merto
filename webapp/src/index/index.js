@@ -1,9 +1,11 @@
 import { setFooter, setHeader, setNav } from '../main.js'
 class Index {
   currentLang = window.localStorage.getItem('lang') || 'en'
+  productsMobileSection
+  productsLaptopSection
 
   onInit() {
-    fetch('http://localhost:3000/topics', {
+    fetch('https://merto-step-production.up.railway.app/topics', {
       method: 'GET',
       headers: {
         'accept-language': this.currentLang,
@@ -17,7 +19,7 @@ class Index {
         this.handleNavigation()
       })
 
-    fetch('http://localhost:3000/mega-menu', {
+    fetch('https://merto-step-production.up.railway.app/mega-menu', {
       method: 'GET',
       headers: {
         'accept-language': this.currentLang,
@@ -27,6 +29,103 @@ class Index {
       .then((data) => {
         this.carousel(data.carousel)
       })
+
+    fetch('https://merto-step-production.up.railway.app/catalog?catId=855&amount=7', {
+      headers: { 'accept-language': this.currentLang },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        this.productsMobileSection = data.items
+        this.setMobileProducts()
+      })
+    fetch('https://merto-step-production.up.railway.app/catalog?catId=717&amount=7', {
+      headers: { 'accept-language': this.currentLang },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        this.productsLaptopSection = data.items
+        this.setLaptopProducts()
+      })
+  }
+
+  setMobileProducts() {
+    let productsMobile = document.getElementById('productsMobile')
+    let productsLaptop = document.getElementById('productsLaptop')
+
+    productsMobile.innerHTML = ''
+    this.productsMobileSection.forEach((item) => {
+      productsMobile.innerHTML += `
+      <div class="product-item" data-id="${item.id}">
+            <div class="side-bar">
+                <div class="search"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <div class="cart"><i class="fa-solid fa-cart-shopping"></i></div>
+            </div>
+            <div class="image">
+
+                <img src="${item.imageUrl}" />
+            </div>
+            <div class="desc">
+            <div class="name">
+                <h5>${item.name}</h5>
+            </div>
+            <div class="prices">
+                <h4 class="price">${item.price}₾</h4>
+                ${item.previousPrice ? `<h4 class="previous-price">${item.previousPrice}₾</h4>` : ''}
+            </div>
+        </div>
+      `
+    })
+
+    let allProductItems = document.querySelectorAll('.product-item')
+
+    allProductItems.forEach((productDiv) => {
+      productDiv.addEventListener('click', (event) => {
+        event.stopPropagation()
+        const productId = productDiv.dataset.id
+        if (productId) {
+          window.location.href = `../detail/detail.html?productId=${productId}`
+        }
+      })
+    })
+  }
+  setLaptopProducts() {
+    let productsLaptops = document.getElementById('productsLaptops')
+
+    productsLaptops.innerHTML = ''
+    this.productsLaptopSection.forEach((item) => {
+      productsLaptops.innerHTML += `
+      <div class="product-item" data-id="${item.id}">
+            <div class="side-bar">
+                <div class="search"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <div class="cart"><i class="fa-solid fa-cart-shopping"></i></div>
+            </div>
+            <div class="image">
+
+                <img src="${item.imageUrl}" />
+            </div>
+            <div class="desc">
+            <div class="name">
+                <h5>${item.name}</h5>
+            </div>
+            <div class="prices">
+                <h4 class="price">${item.price}₾</h4>
+                ${item.previousPrice ? `<h4 class="previous-price">${item.previousPrice}₾</h4>` : ''}
+            </div>
+        </div>
+      `
+    })
+
+    let allProductItems = document.querySelectorAll('.product-item')
+
+    allProductItems.forEach((productDiv) => {
+      productDiv.addEventListener('click', (event) => {
+        event.stopPropagation()
+        const productId = productDiv.dataset.id
+        if (productId) {
+          window.location.href = `../detail/detail.html?productId=${productId}`
+        }
+      })
+    })
   }
 
   handleNavigation() {
@@ -37,7 +136,7 @@ class Index {
     categoriesArray.forEach((category) => {
       category.addEventListener('click', () => {
         const classValue = category.classList
-        window.location.href = `./catalog/catalog.html?catId=${classValue}&page=${1}&limit=${Number(window.localStorage.getItem('limit')) || 28}`
+        window.location.href = `./catalog/catalog.html?catId=${classValue}&page=${1}`
       })
     })
   }

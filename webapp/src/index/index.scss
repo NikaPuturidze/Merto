@@ -120,4 +120,198 @@ body {
       }
     }
   }
+  section.productsSection {
+    margin-top: 50px;
+    padding: 0 20px;
+    .mega-menu-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-height: 511px;
+      height: 100%;
+      position: relative;
+      h2 {
+        @include regular;
+        font-weight: 600;
+      }
+      .products {
+        width: 100%;
+        height: 360px;
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        &::-webkit-scrollbar {
+          width: 7px;
+          height: 7px;
+          border-radius: 12px;
+          background: #d3d3d3;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: #000;
+          border-radius: 12px;
+        }
+        &::-webkit-scrollbar-track {
+          border-radius: 12px;
+        }
+        .product-item {
+          max-width: 330px;
+          width: 100%;
+          display: grid;
+          place-items: center;
+          padding: 12px;
+          height: 330px;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+          border: 1px solid rgba($blackMain, 0.2);
+          border-radius: 4px;
+          flex-shrink: 0;
+
+          .side-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            position: absolute;
+            right: 0%;
+            top: 23%;
+            transform: translate(-25%, -50%);
+            opacity: 0;
+            visibility: hidden;
+            transition:
+              opacity 0.3s ease,
+              right 0.3s ease,
+              visibility 0s linear 0.3s;
+
+            .search,
+            .cart {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 2px 8px;
+              opacity: 1;
+              transform: translateY(100%);
+              transition: all 0.4s ease-out;
+              background-color: $whiteSecondary;
+              border-radius: 3px;
+
+              &:hover {
+                background-color: rgba($blueMain, 0.8);
+                transition: all 0.2s ease-out;
+                i {
+                  color: $whitePrimary;
+                }
+              }
+
+              i {
+                font-size: 15px;
+                line-height: 30px;
+                color: $blackMain;
+              }
+            }
+
+            .search {
+              transition-delay: 0.05s;
+            }
+
+            .cart {
+              transition-delay: 0.1s;
+            }
+          }
+
+          &:hover {
+            .side-bar {
+              opacity: 1;
+              visibility: visible;
+              transition-delay: 0s;
+              .wish {
+                opacity: 1;
+                transform: translateY(0);
+              }
+
+              .search {
+                opacity: 1;
+                transform: translateY(0);
+              }
+
+              .cart {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+          }
+
+          .image {
+            img {
+              width: 200px;
+              height: 200px;
+              position: relative;
+              z-index: -1;
+            }
+
+            .best {
+              display: flex;
+              position: absolute;
+              top: 10px;
+              left: 10px;
+              background-color: $blueMain;
+              padding: 2px 8px;
+              z-index: 999;
+
+              h4 {
+                @include semibold;
+                font-size: 12px;
+                color: $whitePrimary;
+                text-align: center;
+              }
+            }
+          }
+
+          .desc {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 8px;
+
+            .name {
+              height: 40px;
+              overflow: hidden;
+
+              h5 {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                text-overflow: ellipsis;
+                line-clamp: 3;
+                overflow: hidden;
+                line-height: 20px;
+                font-size: 14px;
+                @include regular;
+              }
+            }
+
+            .prices {
+              display: flex;
+              margin-top: auto;
+              gap: 10px;
+
+              .price {
+                font-size: 18px;
+                color: $blueMain;
+                @include semibold;
+              }
+
+              .previous-price {
+                font-size: 14px;
+                text-decoration: line-through;
+                @include regular;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

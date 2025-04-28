@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="./index/index.scss" />
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <title>Merto</title>
   </head>
   <body>
     <header class="main-container-wrapper">
@@ -17,12 +18,129 @@
       </div>
     </header>
 
+    <div class="portal">
+      <div class="login-popup-content">
+        <div class="banner-content">
+          <img src="https://merto-be87.kxcdn.com/merto/wp-content/uploads/2024/05/login-banner.jpg" loading="lazy" alt="Banner" />
+        </div>
+        <div class="form-content">
+          <h4 class="form-title">Login</h4>
+          <form class="form-login" name="ts-login-form" id="ts-login-form">
+            <p class="login-email">
+              <label for="user_login"></label>
+              <input
+                type="email"
+                name="log"
+                id="user_login"
+                autocomplete="email"
+                class="input enter-email"
+                value=""
+                size="20"
+                placeholder="Email address*"
+                required
+              />
+            </p>
+            <p class="login-password">
+              <label for="user_pass"></label>
+              <input
+                type="password"
+                name="pwd"
+                id="user_pass"
+                autocomplete="current-password"
+                spellcheck="false"
+                class="input enter-pass"
+                value=""
+                size="20"
+                placeholder="Password*"
+                required
+              />
+            </p>
+            <div class="div">
+              <p class="login-forget-password">
+                <span class="frgt" class="forget-password">Forget Password?</span>
+              </p>
+            </div>
+            <p class="login-submit">
+              <button class="login-submitt">Log in</button>
+            </p>
+          </form>
+          <form class="form-reg" name="ts-reg-form" id="ts-reg-form">
+            <p class="login-displayname">
+              <label for="user_username"></label>
+              <input
+                type="text"
+                name="log"
+                id="user_displayname"
+                autocomplete="username"
+                class="input enter-email"
+                value=""
+                size="20"
+                placeholder="Username*"
+                required
+                minlength="3"
+              />
+            </p>
+            <p class="login-email">
+              <label for="user_email"></label>
+              <input
+                type="email"
+                name="log"
+                id="user_register"
+                autocomplete="username"
+                class="input enter-email"
+                value=""
+                size="20"
+                placeholder="Email address*"
+                required
+              />
+            </p>
+            <p class="login-password">
+              <label for="user_pass"></label>
+              <input
+                type="password"
+                name="pwd"
+                id="user_pass_register"
+                autocomplete="current-password"
+                spellcheck="false"
+                class="input enter-pass"
+                value=""
+                size="20"
+                placeholder="Password*"
+                required
+                minlength="6"
+              />
+            </p>
+            <p class="login-submit">
+              <button class="login-submitt">Registrataion</button>
+            </p>
+          </form>
+          <div class="create-account-wrapper">
+            <span class="form-btm">Already have an account?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <section class="section-mega-menu">
       <div class="mega-menu-container">
         <div class="carousel">
           <div class="carousel-container"></div>
           <div class="step"></div>
         </div>
+      </div>
+    </section>
+
+    <section class="productsSection">
+      <div class="mega-menu-container">
+        <h2>Laptops</h2>
+        <div class="products" id="productsLaptops"></div>
+      </div>
+    </section>
+
+    <section class="productsSection">
+      <div class="mega-menu-container">
+        <h2>Mobiles</h2>
+        <div class="products" id="productsMobile"></div>
       </div>
     </section>
 

@@ -1,4 +1,11 @@
 import { setFooter, setHeader, setNav } from '../main.js'
+import { initializeApp } from 'firebase/app'
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import { firebaseConfig } from '../main.js'
+import { getAuth } from 'firebase/auth'
+
+const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
 
 class Catalog {
   currentLang = window.localStorage.getItem('lang') || 'en'
@@ -10,7 +17,7 @@ class Catalog {
   sortArray = []
 
   onInit() {
-    fetch('http://localhost:3000/topics', {
+    fetch('https://merto-step-production.up.railway.app/topics', {
       method: 'GET',
       headers: {
         'accept-language': this.currentLang,
@@ -21,18 +28,51 @@ class Catalog {
         setHeader(data.header)
         setNav(data.header)
         setFooter(data.footer)
+
+        this.catId = new URLSearchParams(window.location.search).get('catId')
+
+        this.fetchCatalog(this.catId)
+        this.fetchFilter(this.catId)
+
         this.handleNavigation()
+        this.initPriceRangeFilter()
+        this.initSearchFilter()
       })
+  }
 
-    this.catId = new URLSearchParams(window.location.search).get('catId')
+  initPriceRangeFilter() {
+    const slider = document.getElementById('price-range')
+    const display = document.getElementById('price-value')
+    const MAX_PRICE = Number(slider.max)
 
-    this.fetchCatalog(this.catId)
-    this.fetchFilter(this.catId)
+    display.textContent = slider.value
+
+    slider.addEventListener('input', () => {
+      const minPrice = Number(slider.value)
+      display.textContent = minPrice
+      this.filterItemsByPrice(minPrice, MAX_PRICE)
+    })
+  }
+
+  initSearchFilter() {
+    const input = document.getElementById('search-input')
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase()
+      const filtered = this.undfilteredItems.filter((item) => item.name.toLowerCase().includes(q))
+      this.items = filtered
+      this.setCatalog(filtered)
+    })
+  }
+
+  filterItemsByPrice(minPrice, maxPrice) {
+    const filtered = this.undfilteredItems.filter((item) => item.price >= minPrice && item.price <= maxPrice)
+    this.items = filtered
+    this.setCatalog(filtered)
   }
 
   fetchCatalog(catId) {
     document.querySelector('.loader').style.display = 'flex'
-    fetch(`http://localhost:3000/catalog?catId=${catId}`, {
+    fetch(`https://merto-step-production.up.railway.app/catalog?catId=${catId}&amount=30`, {
       headers: { 'accept-language': this.currentLang },
     })
       .then((r) => r.json())
@@ -45,7 +85,7 @@ class Catalog {
   }
 
   fetchFilter(catId) {
-    fetch(`http://localhost:3000/filter?catId=${catId}`, {
+    fetch(`https://merto-step-production.up.railway.app/filter?catId=${catId}&amount=30`, {
       headers: { 'accept-language': this.currentLang },
     })
       .then((r) => r.json())
@@ -117,20 +157,10 @@ class Catalog {
       </div>
     `
 
-    document.querySelectorAll('.methods-cont h4').forEach((el) => {
-      el.addEventListener('click', (e) => {
-        const sortKey = e.target.dataset.sort
-        this.currentSortTitle = e.target.textContent
-        document.querySelector('.chsnSort').textContent = this.currentSortTitle
-
-        if (sortKey === 'default') {
-          this.currentSort = null
-          this.fetchCatalog(this.catId)
-        } else {
-          this.sortCatalog(sortKey)
-        }
-      })
-    })
+    if (catalog.length === 0) {
+      products.innerHTML = `<p class="no-products">Nothing found</p>`
+      return
+    }
 
     catalog.forEach((item) => {
       let bestDiv = ''
@@ -143,9 +173,8 @@ class Catalog {
       }
 
       products.innerHTML += `
-        <div class="product-item">
+        <div class="product-item" data-id="${item.id}">
             <div class="side-bar">
-                <div class="wish"><i class="fa-regular fa-heart"></i></div>
                 <div class="search"><i class="fa-solid fa-magnifying-glass"></i></div>
                 <div class="cart"><i class="fa-solid fa-cart-shopping"></i></div>
             </div>
@@ -162,7 +191,50 @@ class Catalog {
                 ${item.previousPrice ? `<h4 class="previous-price">${item.previousPrice}₾</h4>` : ''}
             </div>
         </div>
-       `
+      `
+    })
+
+    const search = document.querySelectorAll('.search')
+    const cart = document.querySelectorAll('.cart')
+
+    search.forEach((searchItem) => {
+      searchItem.addEventListener('click', (event) => {
+        event.stopPropagation()
+
+        const productItem = searchItem.closest('.product-item')
+        const productId = productItem ? productItem.dataset.id : null
+
+        if (productId) {
+          window.location.href = `../detail/detail.html?productId=${productId}`
+        }
+      })
+    })
+
+    cart.forEach((cartItem) => {
+      cartItem.addEventListener('click', (event) => {
+        event.stopPropagation()
+
+        const productItem = cartItem.closest('.product-item')
+        const productId = productItem.dataset.id
+        const matchedItem = this.items.find((item) => item.id == productId)
+
+        if (window.localStorage.getItem('idToken')) {
+          if (matchedItem) {
+            const itemPrice = matchedItem.price
+            console.log(matchedItem)
+            setCartData(window.localStorage.getItem('uid'), [
+              {
+                productId: productId,
+                quantity: 1,
+                price: itemPrice,
+              },
+            ])
+            alert('Added to cart')
+          }
+        } else {
+          alert('In order to use cart, Proceed to login')
+        }
+      })
     })
   }
 
@@ -265,7 +337,7 @@ class Catalog {
               case 'Color':
                 return item.specificationGroup?.some((g) => g.specifications?.some((spec) => vals.includes(spec.specificationMeaning)))
 
-              case 'Brand':
+              case 'Brands':
                 return vals.includes(item.subCategoryName)
 
               case 'RAM':
@@ -275,6 +347,9 @@ class Catalog {
                 return item.specificationGroup?.some((g) => g.specifications?.some((spec) => vals.includes(spec.specificationMeaning)))
 
               case 'Refresh rate':
+                return item.specificationGroup?.some((g) => g.specifications?.some((spec) => vals.includes(spec.specificationMeaning)))
+
+              case 'Screen size':
                 return item.specificationGroup?.some((g) => g.specifications?.some((spec) => vals.includes(spec.specificationMeaning)))
 
               default:
@@ -295,3 +370,43 @@ class Catalog {
 }
 
 new Catalog().onInit()
+
+const setCartData = async (userId, items) => {
+  try {
+    const cartRef = doc(db, 'carts', userId)
+    const cartSnap = await getDoc(cartRef)
+
+    let currentItems = []
+
+    if (!cartSnap.exists()) {
+      currentItems = []
+    } else {
+      const cartData = cartSnap.data()
+      if (cartData && cartData.items) {
+        currentItems = cartData.items
+      }
+    }
+
+    items.forEach((item) => {
+      const existingItem = currentItems.find((cartItem) => cartItem.productId === item.productId)
+
+      if (existingItem) {
+        existingItem.quantity += item.quantity
+      } else {
+        currentItems.push({
+          productId: item.productId,
+          quantity: item.quantity,
+          price: item.price,
+        })
+      }
+    })
+
+    const payload = {
+      items: currentItems,
+    }
+
+    await setDoc(cartRef, payload, { merge: true })
+  } catch (error) {
+    console.error('Error:', error)
+  }
+}

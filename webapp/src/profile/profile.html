@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./profile.scss" />
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css" />
+    <title>Merto</title>
+  </head>
+  <body>
+    <header class="main-container-wrapper">
+      <div class="main-container">
+        <div class="header-container"></div>
+        <nav>
+          <ul id="cat-list"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <section class="section-profile">
+      <div class="section-profile-container"></div>
+    </section>
+
+    <div class="portal">
+      <div class="login-popup-content">
+        <div class="banner-content">
+          <img src="https://merto-be87.kxcdn.com/merto/wp-content/uploads/2024/05/login-banner.jpg" loading="lazy" alt="Banner" />
+        </div>
+        <div class="form-content">
+          <h4>Login</h4>
+          <form name="ts-login-form" id="ts-login-form">
+            <p class="login-username">
+              <label for="user_login"></label>
+              <input
+                type="email"
+                name="log"
+                id="user_login"
+                autocomplete="username"
+                class="input enter-email"
+                value=""
+                size="20"
+                placeholder="Email address*"
+                required
+              />
+            </p>
+            <p class="login-password">
+              <label for="user_pass"></label>
+              <input
+                type="password"
+                name="pwd"
+                id="user_pass"
+                autocomplete="current-password"
+                spellcheck="false"
+                class="input enter-pass"
+                value=""
+                size="20"
+                placeholder="Password*"
+                required
+              />
+            </p>
+            <div class="div">
+              <p class="login-forget-password">
+                <span class="frgt" class="forget-password">Forget Password?</span>
+              </p>
+            </div>
+            <p class="login-submit">
+              <button>Log in</button>
+            </p>
+          </form>
+          <div class="create-account-wrapper">
+            <span>You dont have an account yet?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-container"></div>
+    </footer>
+
+    <script async type="module" src="./profile.js"></script>
+  </body>
+</html>
